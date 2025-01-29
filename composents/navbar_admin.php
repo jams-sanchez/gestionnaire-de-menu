@@ -18,7 +18,3 @@
             </ul>
         </nav>
     </header>
-
-    <div> </div>
-</body>
-</html>

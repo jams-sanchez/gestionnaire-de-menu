@@ -1,7 +1,4 @@
 <?php
-// include 'navbar_user.php';
-
-
 session_start();
 $bdd = new PDO(
     'mysql:host=localhost;dbname=gestionnaire_de_menus','root',''
@@ -27,19 +24,9 @@ if(!empty($_POST['email']) && !empty($_POST['password'])){
 }
 }
 
-
-
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/connexion.css">
-    <title>Gestionnaire de menus</title>
-</head>
-<body>
+<?php include '../composents/navbar_user.php';?>
 <h1 class="titre">Connexion</h1>
 
 <section class="bloc">
@@ -49,5 +36,9 @@ if(!empty($_POST['email']) && !empty($_POST['password'])){
     <button type="submit" name="submit" class="bouton">Valider</button>
     </form>
 </section>
+
+<?php
+include '../composents/footer.php';
+?>
 </body>
 </html>
