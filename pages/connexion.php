@@ -1,5 +1,5 @@
 <?php
-// include 'navbar_user.php';
+include '../composents/navbar_admin.php';
 
 
 session_start();
