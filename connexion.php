@@ -16,14 +16,14 @@ if(!empty($_POST['email']) && !empty($_POST['password'])){
     $req = $req->fetchAll();   
     
     if(empty($req)){
-        echo "email ou mot de passe incorrect";
+        echo '<p class="alert">Email ou mot de passe incorrect !</p>';
     }
     else{
         header("location:admin.php");
     }
 
 }else{
-    echo "Veuillez remplir tous les champs";
+    echo '<p class="alert">Veuillez remplir tous les champs</p>';
 }
 }
 
