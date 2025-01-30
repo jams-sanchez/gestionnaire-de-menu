@@ -55,7 +55,7 @@ if (isset($_GET['valid'])) {
             <h1>Modifier les information du plat</h1>
             <form action="update-plat.php" method="get">
                 <label for="name">Nom du Plat</label>
-                <input type="text" name="nom" value="<?= $result[0]['nom'] ?>" id="name">
+                <input type="text" name="nom" value="<?= $result[0]['nom'] ?>" id="name" placeholder="<?= $result[0]['nom'] ?>">
                 <label for="description">Description du Plat</label>
                 <textarea type="textarea" rows="4" colls="33" name="description" id="description"><?= $result[0]['description'] ?></textarea>
                 <input type="submit" name="valid" id="Valider">
