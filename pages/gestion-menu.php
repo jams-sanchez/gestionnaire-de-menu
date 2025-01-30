@@ -60,6 +60,8 @@ if (isset($_POST['supprimer'])) {
     $suppStmt->execute([
         'id' => $valueID,
     ]);
+
+    header("location: gestion-menu.php");
 }
 
 ?>
@@ -130,7 +132,7 @@ if (isset($_POST['supprimer'])) {
                 if ($menuCheckStmt->fetchColumn() > 0) {
                     // affiche message d'erreur
                     echo "Un menu identique existe déjà !";
-                    header("refresh:1;url=menu-page.php");
+                    header("refresh:1;url=gestion-menu.php");
                 } else {
 
                     // sinon créer le menu
@@ -159,7 +161,7 @@ if (isset($_POST['supprimer'])) {
                     $messageSucces = "Le menu a bien été créé ! ";
                     echo $messageSucces;
                     // actualise apres 1 secondes
-                    header("refresh:1;url=menu-page.php");
+                    header("refresh:1;url=gestion-menu.php");
                 }
             }
         } ?>
