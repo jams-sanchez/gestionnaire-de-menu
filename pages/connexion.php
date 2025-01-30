@@ -20,8 +20,9 @@ if(isset($_POST['submit'])){
         else{
             session_start();
             $_SESSION['user'] = $req;
-            header("location:admin.php");
+            header("location:gestionPlat.php");
         }
+
 
 }else{
     echo '<p class="alert">Veuillez remplir tous les champs</p>';

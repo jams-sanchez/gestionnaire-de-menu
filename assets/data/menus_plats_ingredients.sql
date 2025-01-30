@@ -67,7 +67,6 @@ INSERT INTO ingredient_plat (ingredient_id, plat_id) VALUES
 -- Pokéball Surprise (Pokémon)
 (22, 9), (23, 9);
 
-
 INSERT INTO categorie (nom) VALUES
 ('Entrée'),
 ('Plat'),
@@ -77,3 +76,4 @@ INSERT INTO utilisateur (mail, password) VALUES
 ('yannick@example.io', 'example'),
 ('james@example.io', 'example'),
 ('sandra@example.io', 'example');
+
