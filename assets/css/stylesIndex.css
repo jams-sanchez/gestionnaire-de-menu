@@ -26,7 +26,7 @@
 
 .card-plat,
 .card-menu {
-    background-color: #dedede;
+    background-color: #5ba619;
     border-radius: 1rem;
     width: 30%;
     padding: 1rem;
@@ -48,3 +48,8 @@
     justify-content: space-between;
 }
 
+.card-plat img {
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+}

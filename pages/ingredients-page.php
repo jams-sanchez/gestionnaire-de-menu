@@ -29,11 +29,11 @@ if (isset($_POST['supprimer'])) {
 
 ?>
 
-<?php include '../composents/navbar_user.php'; ?>
+<?php include '../composents/navbar_admin.php'; ?>
 <!-- main -->
 <main>
 
-    <form class="ajout-ing" action="ingredient.php" method="POST">
+    <form class="ajout-ing" action="" method="POST">
         <label for="titre">
             <h2 class="titre-ing">Ajouter un ingrédient</h2>
         </label>

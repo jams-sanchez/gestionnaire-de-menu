@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=gestionnaire_de_menu', "root", "");
 } catch (PDOException $e) {
@@ -70,7 +68,11 @@ $listPlat = $listPlatStmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($listPlat as $value): ?>
 
             <div class="card-plat">
-                <img href="<?= $value['image'] ?>" />
+                <div class="img-plat">
+                    <!-- <img src="./assets/img/salade-sunny.jpg"/> -->
+                    <img src="<?= $value['image']; ?>" />
+                </div>
+
                 <article class="card-desc">
                     <h3><?= $value['nom'] ?></h3>
                     <p><?= $value['description'] ?></p>
