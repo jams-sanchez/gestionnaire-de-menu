@@ -16,7 +16,7 @@ if(!empty($_POST['email']) && !empty($_POST['password'])){
         echo '<p class="alert">Email ou mot de passe incorrect !</p>';
     }
     else{
-        header("location:admin.php");
+        header("location:gestionPlat.php");
     }
 
 }else{
