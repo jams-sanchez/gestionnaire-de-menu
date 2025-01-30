@@ -17,7 +17,7 @@ INSERT INTO plat (nom, description, prix, image, id_categorie) VALUES
 -- Pokémon
 ('Soupe Mystherbe', 'Velouté de légumes verts et basilic', 6.99, './assets/img/soupe-mystherbe.jpg', 1),
 ('Brochette Dracaufeu', 'Poulet grillé mariné au piment et miel', 18.99, './assets/img/brochette-dracaufeu.jpg', 2),
-('Pokéball Surprise', 'Mousse chocolat-vanille en forme de Pokéball', 7.99, './assets/img/pokeball-suprise.jpeg', 3);
+('Pokéball Surprise', 'Mousse chocolat-vanille en forme de Pokéball', 7.99, './assets/img/pokeball-surprise.jpeg', 3);
 
 INSERT INTO plat_menu (plat_id, menu_id) VALUES
 -- Menu One Piece
