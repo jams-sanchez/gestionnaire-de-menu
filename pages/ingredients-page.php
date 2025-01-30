@@ -87,4 +87,4 @@ if (isset($_POST['supprimer'])) {
 
 </main>
 
-<?php include '../composents/footer.php'; ?>
+<?php include '../composents/footer_admin.php'; ?>

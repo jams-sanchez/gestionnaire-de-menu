@@ -3,21 +3,21 @@ INSERT INTO menu (nom, prix) VALUES
 ('Dîner Saiyan', 29.99),
 ('Festin de Kanto', 24.99);
 
-INSERT INTO plat (nom, description, prix, id_categorie) VALUES
+INSERT INTO plat (nom, description, prix, image, id_categorie) VALUES
 -- One Piece
-('Salade du Sunny', 'Salade exotique avec fruits et noix de coco', 7.99, 1),
-('Viande du Roi des Pirates', 'Gigot de viande avec sauce barbecue et épices', 18.99, 2),
-('Bonbons du Chapeau de Paille', 'Perles sucrées à la noix de coco et gélatine', 6.99, 3),
+('Salade du Sunny', 'Salade exotique avec fruits et noix de coco', 7.99, './assets/img/salade-sunny.jpg', 1),
+('Viande du Roi des Pirates', 'Gigot de viande avec sauce barbecue et épices', 18.99, './assets/img/roi-des-pirates.jpg', 2),
+('Bonbons du Chapeau de Paille', 'Perles sucrées à la noix de coco et gélatine', 6.99, './assets/img/bonbons-chapeau-de-paille.webp', 3),
 
 -- Dragon Ball Z
-('Boule de Cristal à la crevette', 'Beignets de crevettes croustillants', 8.99, 1),
-('Steak Saiyan XXL', 'Steak de bœuf sauce piquante avec riz', 19.99, 2),
-('Nuage Magique Flottant', 'Mousse à la mangue et lait de coco', 7.99, 3),
+('Boule de Cristal à la crevette', 'Beignets de crevettes croustillants', 8.99, './assets/img/boule-de-cristal.webp', 1),
+('Steak Saiyan XXL', 'Steak de bœuf sauce piquante avec riz', 19.99, './assets/img/steak-saiyan-xxl.jpg', 2),
+('Nuage Magique Flottant', 'Mousse à la mangue et lait de coco', 7.99, './assets/img/nuage-magique-flottant.jpg', 3),
 
 -- Pokémon
-('Soupe Mystherbe', 'Velouté de légumes verts et basilic', 6.99, 1),
-('Brochette Dracaufeu', 'Poulet grillé mariné au piment et miel', 18.99, 2),
-('Pokéball Surprise', 'Mousse chocolat-vanille en forme de Pokéball', 7.99, 3);
+('Soupe Mystherbe', 'Velouté de légumes verts et basilic', 6.99, './assets/img/soupe-mystherbe.jpg', 1),
+('Brochette Dracaufeu', 'Poulet grillé mariné au piment et miel', 18.99, './assets/img/brochette-dracaufeu.jpg', 2),
+('Pokéball Surprise', 'Mousse chocolat-vanille en forme de Pokéball', 7.99, './assets/img/pokeball-suprise.jpeg', 3);
 
 INSERT INTO plat_menu (plat_id, menu_id) VALUES
 -- Menu One Piece
@@ -72,3 +72,8 @@ INSERT INTO categorie (nom) VALUES
 ('Entrée'),
 ('Plat'),
 ('Dessert');
+
+INSERT INTO utilisateur (mail, password) VALUES
+('yannick@example.io', 'example'),
+('james@example.io', 'example'),
+('sandra@example.io', 'example');
