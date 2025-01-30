@@ -1,10 +1,10 @@
+<hr>
+<footer class="footer">
+    <p><img src="../assets/img/facebook.png" alt="facebook"></p>
+    <p>Copyrigth</p>
+    <p><img src="../assets/img/instagram.png" alt="instagram"></p>
 
-    <hr>        
-    <footer class="footer">
-        <p><img src="../assets/img/facebook.png" alt="facebook"></p>
-        <p>Copyrigth</p>
-        <p><img src="../assets/img/instagram.png" alt="instagram"></p>
-
-    </footer>
+</footer>
 </body>
+
 </html>

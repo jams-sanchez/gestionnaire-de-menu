@@ -71,3 +71,6 @@ INSERT INTO categorie (nom) VALUES
 ('Entrée'),
 ('Plat'),
 ('Dessert');
+
+INSERT INTO utilisateur (mail, password) VALUES
+('yannick@example.io', 'example');
