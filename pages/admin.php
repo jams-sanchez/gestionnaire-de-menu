@@ -17,7 +17,7 @@ INNER JOIN categorie ON plat.id_categorie = categorie.id";
 $stmt = $bdd->prepare($sql);
 $stmt->execute();
 $plats = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($plats);
+// var_dump($plats);
 
 // récupérartion des menu avec les plats associé
 $getMenu = "SELECT menu.nom AS menu, plat.nom AS plat, menu.id AS id
@@ -42,7 +42,9 @@ if (isset($_GET['delete-menu'])) {
     $delete = $bdd->prepare($deletePlat);
     $delete->execute();
 };
-
+if (isset($_POST['create'])) {
+    var_dump($_POST);
+}
 
 ?>
 
@@ -60,19 +62,25 @@ if (isset($_GET['delete-menu'])) {
     <h1>Gestion des Plats</h1>
     <section class="addFood">
         <h3>Ajouter un plat</h3>
-
-        <form action="create-plat.php" method="post">
-            <input type="text" name="prix" placeholder="9.99€">
+        <form action="admin.php" method="post">
+            <input type="text" name="image" placeholder="votre image">
             <input type="text" name="nom" id="name" placeholder="Nom du Plat">
-            <input type="text" name="description" id="description" placeholder="Description du plats"></input>
+            <input type="text" name="description" id="description" placeholder="Description du plats">
+            <input type="text" name="prix" placeholder="9.99€">
+            <select name="categorie" id="">
+                <option value="">--Choisir la catégorie--</option>
+                <option value="entree">Entrée</option>
+                <option value="plat">Plat</option>
+                <option value="dessert">Dessert</option>
+            </select>
             <input type="submit" name="create" value="Valider">
         </form>
     </section>
     <section class="plat">
         <h2>Mes Plats</h2>
-        <form action="create-plat.php" method="get">
+        <!-- <form action="create-plat.php" method="get">
             <input type="submit" value="ajouter un plat" name="create">
-        </form>
+        </form> -->
         <table>
             <thead>
                 <tr>
