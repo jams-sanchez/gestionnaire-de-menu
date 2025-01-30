@@ -1,23 +1,28 @@
 <?php
-session_start();
 $bdd = new PDO(
     'mysql:host=localhost;dbname=gestionnaire_de_menus','root',''
 );
 
 if(isset($_POST['submit'])){
-if(!empty($_POST['email']) && !empty($_POST['password'])){
-    $email = htmlentities($_POST['email']);
-    $password = htmlentities($_POST['password']);    
-    $req = $bdd->prepare("SELECT * FROM utilisateur WHERE mail = '$email' AND password = '$password'");
-    $req -> execute();
-    $req = $req->fetchAll();   
+    if(!empty($_POST['email']) && !empty($_POST['password'])){
+        $email = htmlentities($_POST['email']);
+        $password = htmlentities($_POST['password']);    
+        $req = $bdd->prepare("SELECT * FROM utilisateur WHERE mail = :email AND password = :password");
+        $req -> execute([
+            "email" => $email,
+            "password" => $password
+        ]);
+        $req = $req->fetch(PDO::FETCH_ASSOC);
     
-    if(empty($req)){
-        echo '<p class="alert">Email ou mot de passe incorrect !</p>';
-    }
-    else{
-        header("location:gestionPlat.php");
-    }
+        if(empty($req)){
+            echo '<p class="alert">Email ou mot de passe incorrect !</p>';
+        }
+        else{
+            session_start();
+            $_SESSION['user'] = $req;
+            header("location:gestionPlat.php");
+        }
+
 
 }else{
     echo '<p class="alert">Veuillez remplir tous les champs</p>';
@@ -27,6 +32,7 @@ if(!empty($_POST['email']) && !empty($_POST['password'])){
 ?>
 
 <?php include '../composents/navbar_user.php';?>
+
 <h1 class="titre">Connexion</h1>
 
 <section class="bloc">
