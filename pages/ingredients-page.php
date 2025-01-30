@@ -33,10 +33,12 @@ if (isset($_POST['supprimer'])) {
 <!-- main -->
 <main>
 
-    <form action="" method="POST">
-        <label for="titre">Ingredient</label>
+    <form class="ajout-ing" action="ingredient.php" method="POST">
+        <label for="titre">
+            <h2 class="titre-ing">Ajouter un ingrédient</h2>
+        </label>
         <input type="text" name="nom" id="nom" placeholder="entrez un nouvel ingredient" required>
-        <button name="ajouter">+ Ajouter un ingredient</button>
+        <button name="ajouter">+ Ajouter</button>
 
         <?php
 
@@ -61,22 +63,19 @@ if (isset($_POST['supprimer'])) {
 
     </form>
 
-    <h2 class="titre-index">Liste des ingredients</h2>
-
-
-    <table>
+    <table class="tab-ing">
         <thead>
-            <th>Nom</th>
+            <th class="titre-ing">Liste des ingrédients</th>
         </thead>
         <tbody>
             <?php
 
             foreach ($listIngredient as $value): ?>
                 <tr>
-                    <td> <?= $value['nom'] ?></td>
-                    <td>
-                        <form action="" method="post">
-                            <button name="supprimer" value="<?= $value['id'] ?>"> Supprimer </button>
+                    <td class="info-ing"> <?= $value['nom'] ?></td>
+                    <td class="info2-ing">
+                        <form class="supp-ing" action="" method="post">
+                            <button class="supp-but" name="supprimer" value="<?= $value['id'] ?>"> Supprimer </button>
                         </form>
                     </td>
                 </tr>
