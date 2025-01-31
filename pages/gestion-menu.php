@@ -49,8 +49,6 @@ foreach ($listPlat as $key => $value) {
     $plats[$platCat][$value['id']] = $platNom;
 }
 
-var_dump($plats);
-
 // ajouter un menu 
 
 $messageSuccesMenu = "";
@@ -131,7 +129,7 @@ if (isset($_POST['modifier'])) {
 
     $listMenuStmt = $bdd->prepare("
 SELECT menu.nom AS menu, menu.prix, plat.nom AS plat, 
-categorie.nom AS categorie, menu.id, plat.image
+categorie.nom AS categorie, menu.id, plat.image, plat.id AS platID
 FROM menu 
 JOIN plat_menu ON plat_menu.menu_id = menu.id 
 JOIN plat ON plat_menu.plat_id = plat.id 
@@ -147,48 +145,52 @@ WHERE menu.id = $id");
         $menuPlat = $value['plat'];
         $platImage = $value['image'];
         $menuID = $value['id'];
+        $platID = $value['platID'];
 
         $menuUpdate[$menusNom]['Prix'] = $menuPrix;
         $menuUpdate[$menusNom]['ID'] = $menuID;
-        $menuUpdate[$menusNom][$value['categorie']] = ['nom' => $menuPlat, 'image' => $platImage];
+        $menuUpdate[$menusNom][$value['categorie']] = ['nom' => $menuPlat, 'image' => $platImage, 'platID' => $platID];
     }
 
     $nomMenuKey = key($menuUpdate);
-    var_dump($_POST['modifier']);
 }
 
 // recuperation des infos menu modifier
 
 if (isset($_POST['validModif'])) {
     $idMenu = $_SESSION['idMenu'];
-    $nomUpdate = htmlspecialchars($_POST['nom']);
-    $entreeUpdate = ($_POST['entree']);
-    $platUpdate = ($_POST['plat']);
-    $dessertUpdate = ($_POST['dessert']);
-    $prixUpdate = htmlspecialchars($_POST['prix']);
+    $nomUpdate = htmlspecialchars($_POST['nomUpdate']);
+    $entreeUpdate = ($_POST['entreeUpdate']);
+    $platUpdate = ($_POST['platUpdate']);
+    $dessertUpdate = ($_POST['dessertUpdate']);
+    $prixUpdate = htmlspecialchars($_POST['prixUpdate']);
+
 
     $menuUpdate = $bdd->prepare("UPDATE menu SET nom = :nom, prix = :prix 
-    WHERE id = :id");
+    WHERE id = $idMenu");
     $menuUpdate->execute([
-        ':id' => $idMenu,
         ':nom' => $nomUpdate,
         ':prix' => $prixUpdate
     ]);
-    $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu SET plat_id = :idPlat, menu_id = :idMenu");
-    $menuPlatUpdate->execute([
-        ':idMenu' => $idMenu,
-        ':idPlat' => $entreeUpdate
+    $menuEntreeUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat
+    WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 1)");
+    $menuEntreeUpdate->execute([
+        ':idPlat' => $entreeUpdate,
+        ':idMenu' => $idMenu
     ]);
+    $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
+    WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 2)");
     $menuPlatUpdate->execute([
-        ':idMenu' => $idMenu,
-        ':idPlat' => $platUpdate
+        ':idPlat' => $platUpdate,
+        ':idMenu' => $idMenu
     ]);
-    $menuPlatUpdate->execute([
-        ':idMenu' => $idMenu,
-        ':idPlat' => $dessertUpdate
+    $menuDessertUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
+    WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 3)");
+    $menuDessertUpdate->execute([
+        ':idPlat' => $dessertUpdate,
+        ':idMenu' => $idMenu
     ]);
 
-    var_dump($_POST['validModif']);
     header("refresh:1;url=gestion-menu.php");
 }
 
@@ -220,48 +222,54 @@ if (isset($_POST['supprimer'])) {
 
             <form class="ajout-ing" action="" method="POST">
 
-                <input class="button-james" type="text" name="nom" id="nom" value="<?= key($menuUpdate) ?>" required>
+                <input class="button-james" type="text" name="nomUpdate" id="nom" value="<?= key($menuUpdate) ?>" required>
                 <!-- entrée -->
-                <select class="button-james" type="text" name="entree" id="entree" required>
+                <select class="button-james" type="text" name="entreeUpdate" id="entree" required>
                     <!-- Entrée du menu a modifier -->
                     <?php if (isset($menuUpdate[$nomMenuKey]['Entrée']['nom'])) : ?>
-                        <option><?= $menuUpdate[$nomMenuKey]['Entrée']['nom']; ?></option>
+                        <option value="<?= $menuUpdate[$nomMenuKey]['Entrée']['platID'] ?>"><?= $menuUpdate[$nomMenuKey]['Entrée']['nom']; ?></option>
                     <?php else: ?>
                         <option> **** </option>
                     <?php endif; ?>
                     <!-- Liste des entrées -->
                     <?php foreach ($plats['Entrée'] as $key => $value): ?>
-                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                        <?php if ($value != $menuUpdate[$nomMenuKey]['Entrée']['nom']): ?>
+                            <option value="<?= $key; ?>"><?= $value; ?></option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
                 <!-- plat -->
-                <select class="button-james" type="text" name="plat" id="plat" placeholder="entrez un plat" required>
+                <select class="button-james" type="text" name="platUpdate" id="plat" placeholder="entrez un plat" required>
                     <!-- plat du menu a modifier -->
                     <?php if (isset($menuUpdate[$nomMenuKey]['Plat']['nom'])) : ?>
-                        <option><?= $menuUpdate[$nomMenuKey]['Plat']['nom']; ?></option>
+                        <option value="<?= $menuUpdate[$nomMenuKey]['Plat']['platID'] ?>"><?= $menuUpdate[$nomMenuKey]['Plat']['nom']; ?></option>
                     <?php else: ?>
                         <option> **** </option>
                     <?php endif; ?>
                     <!-- Liste plat -->
                     <?php foreach ($plats['Plat'] as $key => $value): ?>
-                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                        <?php if ($value != $menuUpdate[$nomMenuKey]['Plat']['nom']): ?>
+                            <option value="<?= $key; ?>"><?= $value; ?></option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
                 <!-- dessert -->
-                <select class="button-james" type="text" name="dessert" id="dessert" placeholder="entrez un dessert" required>
+                <select class="button-james" type="text" name="dessertUpdate" id="dessert" placeholder="entrez un dessert" required>
                     <!-- dessert du menu a modifier -->
                     <?php if (isset($menuUpdate[$nomMenuKey]['Dessert']['nom'])) : ?>
-                        <option><?= $menuUpdate[$nomMenuKey]['Dessert']['nom']; ?></option>
+                        <option value="<?= $menuUpdate[$nomMenuKey]['Dessert']['platID'] ?>"><?= $menuUpdate[$nomMenuKey]['Dessert']['nom']; ?></option>
                     <?php else: ?>
                         <option> **** </option>
                     <?php endif; ?>
                     <!-- liste dessert -->
                     <?php foreach ($plats['Dessert'] as $key => $value): ?>
-                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                        <?php if ($value != $menuUpdate[$nomMenuKey]['Dessert']['nom']): ?>
+                            <option value="<?= $key; ?>"><?= $value; ?></option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
 
-                <input class="button-james" type="text" name="prix" value="<?= $menuUpdate[$nomMenuKey]['Prix'] ?> €" required>
+                <input class="button-james" type="text" name="prixUpdate" value="<?= $menuUpdate[$nomMenuKey]['Prix'] ?> €" required>
 
                 <button class="supp-but" name="validModif">Modifier</button>
 
