@@ -1,7 +1,9 @@
 .gestion-plat {
-  background-color: rgba(180, 189, 189, 0.979);
-  margin: 2rem 0;
   padding-bottom: 3rem;
+  background-image: url(../img/manga-3.jpg);
+}
+.food-management {
+  padding-top: 2rem;
 }
 .title {
   text-align: center;
@@ -13,7 +15,9 @@
 .add-food,
 .plat {
   width: 85%;
-  margin: 3rem auto;
+  margin: 0 auto;
+  background-color: rgba(224, 223, 223, 0.562);
+  padding-bottom: 3rem;
 }
 
 .sub-title {
@@ -43,7 +47,8 @@
   border-radius: 5px;
   background-color: rgba(172, 166, 166, 0.562);
   box-shadow: 0 0 2px 2px rgba(172, 166, 166, 0.562);
-  margin-left: 0.5rem;
+  margin: 0.7rem;
+  cursor: pointer;
 }
 
 /* SECTION AFFICHAGE DES PLAT */
@@ -58,18 +63,26 @@
   height: 6rem;
   font-size: 1.2rem;
   font-weight: 600;
+  padding: 0 1.3rem;
 }
-.small {
-  width: 5%;
-  cursor: pointer;
+.table-head-line {
+  font-size: 1.4rem;
+  font-weight: 700;
+  background-color: #0f2582;
+  color: aliceblue;
+}
+.table-head-line td,
+.table-line td {
+  border-left: 2px solid black;
+  text-align: center;
 }
 .food-item img {
   max-width: 100%;
   max-height: 100%;
 }
 .table-body tr:nth-child(odd) {
-  background-color: rgb(127, 125, 129);
+  background-color: #f85a19;
 }
 .table-body tr:nth-child(even) {
-  background-color: rgb(192, 197, 187);
+  background-color: #0f2582;
 }
