@@ -32,20 +32,24 @@ if (isset($_POST['submit'])) {
 ?>
 
 <?php include '../composents/navbar_admin.php'; ?>
-<!-- si une session est déjà ouverte on ne propose pas de se reconnecter -->
-<?php if (isset($_SESSION['user'])) : ?>
-    <?php header("location:gestionPlat.php"); ?>
-    <!-- si pas de session ouverte on propose de se connecter -->
-<?php else : ?>
-    <h1 class="titre">Connexion</h1>
-    <section class="bloc">
-        <form method="post" action="" class="form">
-            <input class="input" type="email" name="email" id="email" value="" placeholder="Entrez votre email" required><br /><br />
-            <input class="input" type="password" name="password" id="password" value="" placeholder="Entrez votre mot de passe" required><br /><br />
-            <button type="submit" name="submit" class="bouton">Valider</button>
-        </form>
+<main class="gestion-plat">
+    <section class="food-management add-food">
+        <!-- si une session est déjà ouverte on ne propose pas de se reconnecter -->
+        <?php if (isset($_SESSION['user'])) : ?>
+            <?php header("location:gestionPlat.php"); ?>
+            <!-- si pas de session ouverte on propose de se connecter -->
+        <?php else : ?>
+            <h1 class="titre">Connexion</h1>
+            <section class="bloc">
+                <form method="post" action="" class="form">
+                    <input class="input" type="email" name="email" id="email" value="" placeholder="Entrez votre email" required><br /><br />
+                    <input class="input" type="password" name="password" id="password" value="" placeholder="Entrez votre mot de passe" required><br /><br />
+                    <button type="submit" name="submit" class="bouton">Valider</button>
+                </form>
+            </section>
+        <?php endif ?>
     </section>
-<?php endif ?>
+</main>
 <?php
 include '../composents/footer_admin.php';
 ?>
