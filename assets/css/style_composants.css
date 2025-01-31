@@ -7,7 +7,7 @@
 .header {
   height: 9rem;
   width: 100%;
-  background-color: rgb(244, 196, 85);
+  background-color:#F7A23A;
   padding-top: 2rem;
 }
 
@@ -36,12 +36,20 @@
   color: black;
 }
 
+.bouton_deco{
+  border: none;
+  background-color: #F7A23A;
+  cursor: pointer;
+}
+
+
+
 /*FOOTER*/
 
 .footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: rgb(244, 196, 85);
+  background-color: #F7A23A;
   height: 7rem;
 }
