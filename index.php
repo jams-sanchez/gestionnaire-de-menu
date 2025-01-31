@@ -40,9 +40,9 @@ $listPlat = $listPlatStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php include './composents/navbar_user.php'; ?>
 <!-- main -->
-<main>
+<main class="main-index">
 
-    <h2 class="titre-index">Les Menus</h2>
+    <h2 class="titre-index">Les menus</h2>
 
     <section class="boite">
 

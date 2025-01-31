@@ -68,36 +68,37 @@ if (isset($_POST['supprimer'])) {
 
 <?php include '../composents/navbar_admin.php'; ?>
 <!-- main -->
-<main>
+<main class="main-james">
 
     <h2 class="titre-ing">Ajouter un menu</h2>
+
     <form class="ajout-ing" action="" method="POST">
-        <input type="text" name="nom" id="nom" placeholder="entrez un nom de menu" required>
+        <input class="button-james" type="text" name="nom" id="nom" placeholder="entrez un nom de menu" required>
         <!-- entrée -->
-        <select type="text" name="entree" id="entree" required>
+        <select class="button-james" type="text" name="entree" id="entree" required>
             <option>--Choisissez une entrée--</option>
             <?php foreach ($plats['Entrée'] as $key => $value): ?>
                 <option value="<?= $key; ?>"><?= $value; ?></option>
             <?php endforeach; ?>
         </select>
         <!-- plat -->
-        <select type="text" name="plat" id="plat" placeholder="entrez un plat" required>
+        <select class="button-james" type="text" name="plat" id="plat" placeholder="entrez un plat" required>
             <option>--Choisissez un plat--</option>
             <?php foreach ($plats['Plat'] as $key => $value): ?>
                 <option value="<?= $key; ?>"><?= $value; ?></option>
             <?php endforeach; ?>
         </select>
         <!-- dessert -->
-        <select type="text" name="dessert" id="dessert" placeholder="entrez un dessert" required>
+        <select class="button-james" type="text" name="dessert" id="dessert" placeholder="entrez un dessert" required>
             <option>--Choisissez un dessert--</option>
             <?php foreach ($plats['Dessert'] as $key => $value): ?>
                 <option value="<?= $key; ?>"><?= $value; ?></option>
             <?php endforeach; ?>
         </select>
 
-        <input type="text" name="prix" placeholder="entrez un prix" required>
+        <input class="button-james" type="text" name="prix" placeholder="entrez un prix" required>
 
-        <button name="ajouter">+ Ajouter</button>
+        <button class="supp-but" name="ajouter">+ Ajouter</button>
 
         <?php
 
@@ -171,8 +172,8 @@ if (isset($_POST['supprimer'])) {
 
     <h2 class="titre-ing">Liste des menus</h2>
 
-    <table class="tab-ing">
-        <thead>
+    <table>
+        <thead class="titre-tab">
             <th>Nom</th>
             <th>Prix</th>
             <th>Entrée</th>
@@ -199,7 +200,7 @@ if (isset($_POST['supprimer'])) {
 
                     <td class="info2-ing">
                         <form class="supp-ing" action="" method="post">
-                            <button name="supprimer" value="<?= $value['ID'] ?>"> Supprimer </button>
+                            <button class="supp-but" name="supprimer" value="<?= $value['ID'] ?>"> Supprimer </button>
                         </form>
                     </td>
                 </tr>

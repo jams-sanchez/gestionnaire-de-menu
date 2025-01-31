@@ -31,14 +31,14 @@ if (isset($_POST['supprimer'])) {
 
 <?php include '../composents/navbar_admin.php'; ?>
 <!-- main -->
-<main>
+<main class="main-james">
 
     <form class="ajout-ing" action="" method="POST">
         <label for="titre">
             <h2 class="titre-ing">Ajouter un ingrédient</h2>
         </label>
-        <input type="text" name="nom" id="nom" placeholder="entrez un nouvel ingredient" required>
-        <button name="ajouter">+ Ajouter</button>
+        <input class="button-james" type="text" name="nom" id="nom" placeholder="entrez un nouvel ingredient" required>
+        <button class="supp-but" name="ajouter">+ Ajouter</button>
 
         <?php
 
@@ -73,7 +73,7 @@ if (isset($_POST['supprimer'])) {
             foreach ($listIngredient as $value): ?>
                 <tr>
                     <td class="info-ing"> <?= $value['nom'] ?></td>
-                    <td class="info2-ing">
+                    <td>
                         <form class="supp-ing" action="" method="post">
                             <button class="supp-but" name="supprimer" value="<?= $value['id'] ?>"> Supprimer </button>
                         </form>
