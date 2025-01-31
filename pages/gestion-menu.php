@@ -49,6 +49,148 @@ foreach ($listPlat as $key => $value) {
     $plats[$platCat][$value['id']] = $platNom;
 }
 
+var_dump($plats);
+
+// ajouter un menu 
+
+$messageSuccesMenu = "";
+
+
+if (isset($_POST["ajouter"])) {
+    //verifie que les champs sont bien rempli
+    if (
+        empty($_POST['nom']) or empty($_POST['entree']) or empty($_POST['plat'])
+        or empty($_POST['dessert']) or empty($_POST['prix'])
+    ) {
+        echo "Veuillez remplir tous les champs ! ";
+    } else {
+        //recup les infos rempli
+        $nom = htmlspecialchars($_POST['nom']);
+        $entree = $_POST['entree'];
+        $plat = $_POST['plat'];
+        $dessert = $_POST['dessert'];
+        $prix = htmlspecialchars($_POST['prix']);
+
+        // vérifie si un menu identique existe 
+        $menuCheckStmt = $bdd->prepare("SELECT COUNT(*) FROM menu
+                            JOIN plat_menu AS pmEntree ON menu.id = pmEntree.menu_id AND pmEntree.plat_id = :entree
+                            JOIN plat_menu AS pmPlat ON menu.id = pmPlat.menu_id AND pmPlat.plat_id = :plat
+                            JOIN plat_menu AS pmDessert ON menu.id = pmDessert.menu_id AND pmDessert.plat_id = :dessert
+                            ");
+
+        $menuCheckStmt->execute([
+            'entree' => $entree,
+            'plat' => $plat,
+            'dessert' => $dessert
+        ]);
+        // si plus d'1 résultat
+        if ($menuCheckStmt->fetchColumn() > 0) {
+            // affiche message d'erreur
+            echo "Un menu identique existe déjà !";
+            header("refresh:1;url=gestion-menu.php");
+        } else {
+
+            // sinon créer le menu
+            $menuAjoutStmt = $bdd->prepare("INSERT INTO menu(nom, prix) VALUES (:nom, :prix)");
+            $menuAjoutStmt->execute([
+                'nom' => $nom,
+                'prix' => $prix
+            ]);
+
+            $menuId = $bdd->lastInsertId(); // Récupère l'ID du nouveau menu
+
+            $platMenuAjoutStmt = $bdd->prepare("INSERT INTO plat_menu(menu_id, plat_id) VALUES (:menu_id, :plat_id)");
+            $platMenuAjoutStmt->execute([
+                'menu_id' => $menuId,
+                'plat_id' => $entree
+            ]);
+            $platMenuAjoutStmt->execute([
+                'menu_id' => $menuId,
+                'plat_id' => $plat
+            ]);
+            $platMenuAjoutStmt->execute([
+                'menu_id' => $menuId,
+                'plat_id' => $dessert
+            ]);
+            // defini un message de succes
+            $messageSuccesMenu = "Le menu a bien été créé ! ";
+            // actualise apres 1 secondes
+            header("refresh:1;url=gestion-menu.php");
+        }
+    }
+}
+
+// modifier un menu 
+
+// requete pour récuperer toutes les infos du menu a modifier
+
+
+if (isset($_POST['modifier'])) {
+    $id = $_POST['modifier'];
+    $_SESSION['idMenu'] = $id;
+
+    $listMenuStmt = $bdd->prepare("
+SELECT menu.nom AS menu, menu.prix, plat.nom AS plat, 
+categorie.nom AS categorie, menu.id, plat.image
+FROM menu 
+JOIN plat_menu ON plat_menu.menu_id = menu.id 
+JOIN plat ON plat_menu.plat_id = plat.id 
+JOIN categorie ON plat.id_categorie = categorie.id
+WHERE menu.id = $id");
+    $listMenuStmt->execute();
+    $listPlatsMenus = $listMenuStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $menuUpdate = [];
+    foreach ($listPlatsMenus as $key => $value) {
+        $menusNom = $value['menu'];
+        $menuPrix = $value['prix'];
+        $menuPlat = $value['plat'];
+        $platImage = $value['image'];
+        $menuID = $value['id'];
+
+        $menuUpdate[$menusNom]['Prix'] = $menuPrix;
+        $menuUpdate[$menusNom]['ID'] = $menuID;
+        $menuUpdate[$menusNom][$value['categorie']] = ['nom' => $menuPlat, 'image' => $platImage];
+    }
+
+    $nomMenuKey = key($menuUpdate);
+    var_dump($_POST['modifier']);
+}
+
+// recuperation des infos menu modifier
+
+if (isset($_POST['validModif'])) {
+    $idMenu = $_SESSION['idMenu'];
+    $nomUpdate = htmlspecialchars($_POST['nom']);
+    $entreeUpdate = ($_POST['entree']);
+    $platUpdate = ($_POST['plat']);
+    $dessertUpdate = ($_POST['dessert']);
+    $prixUpdate = htmlspecialchars($_POST['prix']);
+
+    $menuUpdate = $bdd->prepare("UPDATE menu SET nom = :nom, prix = :prix 
+    WHERE id = :id");
+    $menuUpdate->execute([
+        ':id' => $idMenu,
+        ':nom' => $nomUpdate,
+        ':prix' => $prixUpdate
+    ]);
+    $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu SET plat_id = :idPlat, menu_id = :idMenu");
+    $menuPlatUpdate->execute([
+        ':idMenu' => $idMenu,
+        ':idPlat' => $entreeUpdate
+    ]);
+    $menuPlatUpdate->execute([
+        ':idMenu' => $idMenu,
+        ':idPlat' => $platUpdate
+    ]);
+    $menuPlatUpdate->execute([
+        ':idMenu' => $idMenu,
+        ':idPlat' => $dessertUpdate
+    ]);
+
+    var_dump($_POST['validModif']);
+    header("refresh:1;url=gestion-menu.php");
+}
 
 // supprimer un menu
 
@@ -71,104 +213,99 @@ if (isset($_POST['supprimer'])) {
 <main class="gestion-plat">
     <section class="food-management add-food">
 
-        <h2 class="titre-ing">Ajouter un menu</h2>
 
-        <form class="ajout-ing" action="" method="POST">
-            <input class="button-james" type="text" name="nom" id="nom" placeholder="entrez un nom de menu" required>
-            <!-- entrée -->
-            <select class="button-james" type="text" name="entree" id="entree" required>
-                <option>--Choisissez une entrée--</option>
-                <?php foreach ($plats['Entrée'] as $key => $value): ?>
-                    <option value="<?= $key; ?>"><?= $value; ?></option>
-                <?php endforeach; ?>
-            </select>
-            <!-- plat -->
-            <select class="button-james" type="text" name="plat" id="plat" placeholder="entrez un plat" required>
-                <option>--Choisissez un plat--</option>
-                <?php foreach ($plats['Plat'] as $key => $value): ?>
-                    <option value="<?= $key; ?>"><?= $value; ?></option>
-                <?php endforeach; ?>
-            </select>
-            <!-- dessert -->
-            <select class="button-james" type="text" name="dessert" id="dessert" placeholder="entrez un dessert" required>
-                <option>--Choisissez un dessert--</option>
-                <?php foreach ($plats['Dessert'] as $key => $value): ?>
-                    <option value="<?= $key; ?>"><?= $value; ?></option>
-                <?php endforeach; ?>
-            </select>
+        <!-- modifier menu -->
+        <?php if (isset($_POST['modifier'])) : ?>
+            <h2 class="titre-ing">Modifier un menu</h2>
 
-            <input class="button-james" type="text" name="prix" placeholder="entrez un prix" required>
+            <form class="ajout-ing" action="" method="POST">
 
-            <button class="supp-but" name="ajouter">+ Ajouter</button>
+                <input class="button-james" type="text" name="nom" id="nom" value="<?= key($menuUpdate) ?>" required>
+                <!-- entrée -->
+                <select class="button-james" type="text" name="entree" id="entree" required>
+                    <!-- Entrée du menu a modifier -->
+                    <?php if (isset($menuUpdate[$nomMenuKey]['Entrée']['nom'])) : ?>
+                        <option><?= $menuUpdate[$nomMenuKey]['Entrée']['nom']; ?></option>
+                    <?php else: ?>
+                        <option> **** </option>
+                    <?php endif; ?>
+                    <!-- Liste des entrées -->
+                    <?php foreach ($plats['Entrée'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <!-- plat -->
+                <select class="button-james" type="text" name="plat" id="plat" placeholder="entrez un plat" required>
+                    <!-- plat du menu a modifier -->
+                    <?php if (isset($menuUpdate[$nomMenuKey]['Plat']['nom'])) : ?>
+                        <option><?= $menuUpdate[$nomMenuKey]['Plat']['nom']; ?></option>
+                    <?php else: ?>
+                        <option> **** </option>
+                    <?php endif; ?>
+                    <!-- Liste plat -->
+                    <?php foreach ($plats['Plat'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <!-- dessert -->
+                <select class="button-james" type="text" name="dessert" id="dessert" placeholder="entrez un dessert" required>
+                    <!-- dessert du menu a modifier -->
+                    <?php if (isset($menuUpdate[$nomMenuKey]['Dessert']['nom'])) : ?>
+                        <option><?= $menuUpdate[$nomMenuKey]['Dessert']['nom']; ?></option>
+                    <?php else: ?>
+                        <option> **** </option>
+                    <?php endif; ?>
+                    <!-- liste dessert -->
+                    <?php foreach ($plats['Dessert'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
 
-            <?php
+                <input class="button-james" type="text" name="prix" value="<?= $menuUpdate[$nomMenuKey]['Prix'] ?> €" required>
 
-            if (isset($_POST["ajouter"])) {
-                //verifie que les champs sont bien rempli
-                if (
-                    empty($_POST['nom']) or empty($_POST['entree']) or empty($_POST['plat'])
-                    or empty($_POST['dessert']) or empty($_POST['prix'])
-                ) {
-                    echo "Veuillez remplir tous les champs ! ";
-                } else {
-                    //recup les infos rempli
-                    $nom = htmlspecialchars($_POST['nom']);
-                    $entree = $_POST['entree'];
-                    $plat = $_POST['plat'];
-                    $dessert = $_POST['dessert'];
-                    $prix = htmlspecialchars($_POST['prix']);
+                <button class="supp-but" name="validModif">Modifier</button>
 
-                    // vérifie si un menu identique existe 
-                    $menuCheckStmt = $bdd->prepare("SELECT COUNT(*) FROM menu
-                                        JOIN plat_menu AS pmEntree ON menu.id = pmEntree.menu_id AND pmEntree.plat_id = :entree
-                                        JOIN plat_menu AS pmPlat ON menu.id = pmPlat.menu_id AND pmPlat.plat_id = :plat
-                                        JOIN plat_menu AS pmDessert ON menu.id = pmDessert.menu_id AND pmDessert.plat_id = :dessert
-                                        ");
+            </form>
+        <?php else : ?>
 
-                    $menuCheckStmt->execute([
-                        'entree' => $entree,
-                        'plat' => $plat,
-                        'dessert' => $dessert
-                    ]);
-                    // si plus d'1 résultat
-                    if ($menuCheckStmt->fetchColumn() > 0) {
-                        // affiche message d'erreur
-                        echo "Un menu identique existe déjà !";
-                        header("refresh:1;url=gestion-menu.php");
-                    } else {
+            <h2 class="titre-ing">Ajouter un menu</h2>
 
-                        // sinon créer le menu
-                        $menuAjoutStmt = $bdd->prepare("INSERT INTO menu(nom, prix) VALUES (:nom, :prix)");
-                        $menuAjoutStmt->execute([
-                            'nom' => $nom,
-                            'prix' => $prix
-                        ]);
+            <form class="ajout-ing" action="" method="POST">
+                <input class="button-james" type="text" name="nom" id="nom" placeholder="entrez un nom de menu" required>
+                <!-- entrée -->
+                <select class="button-james" type="text" name="entree" id="entree" required>
+                    <option>--Choisissez une entrée--</option>
+                    <?php foreach ($plats['Entrée'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <!-- plat -->
+                <select class="button-james" type="text" name="plat" id="plat" placeholder="entrez un plat" required>
+                    <option>--Choisissez un plat--</option>
+                    <?php foreach ($plats['Plat'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <!-- dessert -->
+                <select class="button-james" type="text" name="dessert" id="dessert" placeholder="entrez un dessert" required>
+                    <option>--Choisissez un dessert--</option>
+                    <?php foreach ($plats['Dessert'] as $key => $value): ?>
+                        <option value="<?= $key; ?>"><?= $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
 
-                        $menuId = $bdd->lastInsertId(); // Récupère l'ID du nouveau menu
+                <input class="button-james" type="text" name="prix" placeholder="entrez un prix" required>
 
-                        $platMenuAjoutStmt = $bdd->prepare("INSERT INTO plat_menu(menu_id, plat_id) VALUES (:menu_id, :plat_id)");
-                        $platMenuAjoutStmt->execute([
-                            'menu_id' => $menuId,
-                            'plat_id' => $entree
-                        ]);
-                        $platMenuAjoutStmt->execute([
-                            'menu_id' => $menuId,
-                            'plat_id' => $plat
-                        ]);
-                        $platMenuAjoutStmt->execute([
-                            'menu_id' => $menuId,
-                            'plat_id' => $dessert
-                        ]);
-                        // defini un message de succes
-                        $messageSucces = "Le menu a bien été créé ! ";
-                        echo $messageSucces;
-                        // actualise apres 1 secondes
-                        header("refresh:1;url=gestion-menu.php");
-                    }
-                }
-            } ?>
+                <button class="supp-but" name="ajouter">+ Ajouter</button>
 
-        </form>
+                <?php if (!empty($messageSuccesMenu)) : ?>
+                    <p><?= "<br>" . $messageSuccesMenu; ?></p>
+                <?php endif; ?>
+
+            </form>
+
+
+        <?php endif; ?>
 
 
         <h2 class="titre-ing">Liste des menus</h2>
@@ -213,6 +350,9 @@ if (isset($_POST['supprimer'])) {
                         </td>
 
                         <td class="info2-ing">
+                            <form class="supp-ing" action="" method="post">
+                                <button class="supp-but" name="modifier" value="<?= $value['ID'] ?>"> Modifier </button>
+                            </form>
                             <form class="supp-ing" action="" method="post">
                                 <button class="supp-but" name="supprimer" value="<?= $value['ID'] ?>"> Supprimer </button>
                             </form>
