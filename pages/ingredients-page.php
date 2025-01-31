@@ -73,7 +73,7 @@ if (isset($_POST['supprimer'])) {
             foreach ($listIngredient as $value): ?>
                 <tr>
                     <td class="info-ing"> <?= $value['nom'] ?></td>
-                    <td class="info-ing">
+                    <td>
                         <form class="supp-ing" action="" method="post">
                             <button class="supp-but" name="supprimer" value="<?= $value['id'] ?>"> Supprimer </button>
                         </form>

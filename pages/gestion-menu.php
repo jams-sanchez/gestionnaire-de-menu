@@ -172,8 +172,8 @@ if (isset($_POST['supprimer'])) {
 
     <h2 class="titre-ing">Liste des menus</h2>
 
-    <table class="tab-ing">
-        <thead>
+    <table>
+        <thead class="titre-tab">
             <th>Nom</th>
             <th>Prix</th>
             <th>Entrée</th>
