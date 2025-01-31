@@ -5,30 +5,40 @@
     list-style: none;
 }
 
+.main-index {
+    background-color: #0F2582;
+    
+}
+
 .bold {
     font-weight: bold;
 }
 
 .titre-index {
     text-align: center;
-    margin: 2rem auto;
+    margin: 0 auto 2rem ;
+    color: #ffffff;
+    padding-top: 2rem;
 }
 
 .boite {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
+    padding-bottom: 2rem;
 }
 
 .card-plat,
 .card-menu {
-    background-color: #5ba619;
+    background-color: #f7a23a;
+    border: 1rem solid #f85A19;
     border-radius: 1rem;
     width: 30%;
+    min-width: 12rem;
     padding: 1rem;
     display: flex;   
     flex-direction: column;
