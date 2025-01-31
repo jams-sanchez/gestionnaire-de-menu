@@ -38,13 +38,6 @@
 
 /*FOOTER*/
 
-hr {
-  width: 70%;
-  margin: auto;
-  margin-top: 5rem;
-  margin-bottom: 3rem;
-}
-
 .footer {
   display: flex;
   justify-content: space-around;

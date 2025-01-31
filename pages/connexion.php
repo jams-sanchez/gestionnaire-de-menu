@@ -49,6 +49,3 @@ if (isset($_POST['submit'])) {
 <?php
 include '../composents/footer_admin.php';
 ?>
-</body>
-
-</html>

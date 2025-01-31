@@ -1,4 +1,3 @@
-<hr>
 <footer class="footer">
     <p><img src="./assets/img/facebook.png" alt="facebook"></p>
     <p>Copyrigth</p>
