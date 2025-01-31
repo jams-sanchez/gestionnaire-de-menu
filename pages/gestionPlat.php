@@ -95,79 +95,82 @@ if (isset($_POST['valid'])) {
 
 <!-- le code de la page Gestion Plat -->
 <main class="gestion-plat">
-
-    <h1 class="title">Gestion des Plats</h1>
-    <section class="add-food">
-        <?php if (isset($_GET['update'])): ?>
-            <h2 class="sub-title">Modifier les informations du plat sélectionné</h2>
-            <?php foreach ($result as $value) : ?>
+    <section class="food-management">
+        <section class="add-food">
+            <h1 class="title">Gestion des Plats</h1>
+            <?php if (isset($_GET['update'])): ?>
+                <h2 class="sub-title">Modifier les informations du plat sélectionné</h2>
+                <?php foreach ($result as $value) : ?>
+                    <form class="food-form" action="gestionPlat.php" method="post">
+                        <input class="food-form-item" type="text" name="image" placeholder="votre image" value=<?= $value['image'] ?>>
+                        <input class="food-form-item" type="text" name="nom" id="name" placeholder="<?= $value['nom'] ?>" value="<?= $value['nom'] ?>">
+                        <input class="food-form-item" type="text" name="description" id="description" placeholder="<?= $value['description'] ?>" value="<?= $value['description'] ?>">
+                        <input class="food-form-item" type="text" name="prix" placeholder="<?= $value['prix'] ?>" value="<?= $value['prix'] ?>">
+                        <select class="food-form-item" name="categorie" id="">
+                            <option value=<?= $value['id_categorie'] ?>>--Choisir la catégorie--</option>
+                            <option value="1">Entrée</option>
+                            <option value="2">Plat</option>
+                            <option value="3">Dessert</option>
+                        </select>
+                        <input class="food-form-submit" type="submit" name="valid" id="Valider">
+                    </form>
+                <?php endforeach ?>
+            <?php else: ?>
+                <h3 class="sub-title">Ajouter un plat</h3>
                 <form class="food-form" action="gestionPlat.php" method="post">
-                    <input class="food-form-item" type="text" name="image" placeholder="votre image" value=<?= $value['image'] ?>>
-                    <input class="food-form-item" type="text" name="nom" id="name" placeholder="<?= $value['nom'] ?>" value="<?= $value['nom'] ?>">
-                    <input class="food-form-item" type="text" name="description" id="description" placeholder="<?= $value['description'] ?>" value="<?= $value['description'] ?>">
-                    <input class="food-form-item" type="text" name="prix" placeholder="<?= $value['prix'] ?>" value="<?= $value['prix'] ?>">
+                    <input class="food-form-item" type="text" name="image" placeholder="votre image">
+                    <input class="food-form-item" type="text" name="nom" id="name" placeholder="Nom du Plat">
+                    <input class="food-form-item" type="text" name="description" id="description" placeholder="Description du plats">
+                    <input class="food-form-item" type="text" name="prix" placeholder="9.99€">
                     <select class="food-form-item" name="categorie" id="">
-                        <option value=<?= $value['id_categorie'] ?>>--Choisir la catégorie--</option>
+                        <option value="">--Choisir la catégorie--</option>
                         <option value="1">Entrée</option>
                         <option value="2">Plat</option>
                         <option value="3">Dessert</option>
                     </select>
-                    <input class="food-form-submit" type="submit" name="valid" id="Valider">
+                    <input class="food-form-submit" type="submit" name="create" value="Valider">
                 </form>
-            <?php endforeach ?>
-        <?php else: ?>
-            <h3 class="sub-title">Ajouter un plat</h3>
-            <form class="food-form" action="gestionPlat.php" method="post">
-                <input class="food-form-item" type="text" name="image" placeholder="votre image">
-                <input class="food-form-item" type="text" name="nom" id="name" placeholder="Nom du Plat">
-                <input class="food-form-item" type="text" name="description" id="description" placeholder="Description du plats">
-                <input class="food-form-item" type="text" name="prix" placeholder="9.99€">
-                <select class="food-form-item" name="categorie" id="">
-                    <option value="">--Choisir la catégorie--</option>
-                    <option value="1">Entrée</option>
-                    <option value="2">Plat</option>
-                    <option value="3">Dessert</option>
-                </select>
-                <input class="food-form-submit" type="submit" name="create" value="Valider">
-            </form>
-        <?php endif ?>
-    </section>
-    <section class="plat">
-        <h2 class="sub-title">Mes Plats</h2>
-        <table class="table-food">
-            <thead class="table-head">
-                <tr class="table-head-line">
-                    <td class="food-item-title">Image</td>
-                    <td class="food-item-title">Nom</td>
-                    <td class="food-item-title">description</td>
-                    <td class="food-item-title">prix</td>
-                    <td class="food-item-title">categorie</td>
-                </tr>
-            </thead>
-            <tbody class="table-body">
-                <?php
-                foreach ($plats as $plat): ?>
-                    <tr class="table-line">
-                        <td class="food-item"><img class="food-present" src=".<?= $plat['image'] ?>" alt=<?= $plat['nom'] ?>></td>
-                        <td class="food-item"><?= $plat['nom'] ?></td>
-                        <td class="food-item"><?= $plat['description'] ?></td>
-                        <td class="food-item small"><?= $plat['prix'] ?> €</td>
-                        <td class="food-item small"><?= $plat['categorie'] ?></td>
-                        <td class="food-item small">
-                            <form action="" method="get">
-                                <button value=<?= $plat['id'] ?> name="delete-plat" class="food-form-submit">Supprimer</button>
-                            </form>
-                        </td>
-                        <td class="food-item-small">
-                            <form action="gestionPlat.php" method="get">
-                                <button value=<?= $plat['id'] ?> name="update" class="food-form-submit"> Modifier </button>
-                            </form>
-                        </td>
+            <?php endif ?>
+        </section>
+        <section class="plat">
+            <h2 class="sub-title">Mes Plats</h2>
+            <table class="table-food">
+                <thead class="table-head">
+                    <tr class="table-head-line">
+                        <td class="food-item-title">Image</td>
+                        <td class="food-item-title">Nom</td>
+                        <td class="food-item-title">description</td>
+                        <td class="food-item-title">prix</td>
+                        <td class="food-item-title">categorie</td>
+                        <td class="food-item-title"></td>
+                        <td class="food-item-title"></td>
                     </tr>
-                <?php endforeach; ?>
+                </thead>
+                <tbody class="table-body">
+                    <?php
+                    foreach ($plats as $plat): ?>
+                        <tr class="table-line">
+                            <td class="food-item"><img class="food-present" src=".<?= $plat['image'] ?>" alt=<?= $plat['nom'] ?>></td>
+                            <td class="food-item"><?= $plat['nom'] ?></td>
+                            <td class="food-item"><?= $plat['description'] ?></td>
+                            <td class="food-item small"><?= $plat['prix'] ?> €</td>
+                            <td class="food-item small"><?= $plat['categorie'] ?></td>
+                            <td class="food-item small">
+                                <form action="" method="get">
+                                    <button value=<?= $plat['id'] ?> name="delete-plat" class="food-form-submit">Supprimer</button>
+                                </form>
+                            </td>
+                            <td class="food-item-small">
+                                <form action="gestionPlat.php" method="get">
+                                    <button value=<?= $plat['id'] ?> name="update" class="food-form-submit"> Modifier </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </section>
     </section>
 </main>
 <!-- insertion du footer -->
