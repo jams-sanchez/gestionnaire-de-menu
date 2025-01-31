@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style_composants.css">
     <link rel="stylesheet" href="./assets/css/connexion.css">
-    <link rel="stylesheet" href="assets/css/stylesIndex.css">
+    <link rel="stylesheet" href="./assets/css/stylesIndex.css">
+    <link rel="stylesheet" href="./assets/css/gestionPlat.css">
     <title>Gestionnaire de Menus</title>
 </head>
 

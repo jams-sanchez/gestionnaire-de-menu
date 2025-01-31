@@ -1,70 +1,69 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .main-james {
-    background-color: #0F2582;
+  background-color: #0f2582;
 }
 
 .titre-ing {
-    color: #ffffff;
-    text-align: center;
-    font-size: 2rem;
-    margin: 0 auto 3rem;
-    padding-top: 2rem;
+  color: #050505;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 auto 3rem;
+  padding-top: 2rem;
 }
 
 .button-james {
-    padding: 1rem;
-    text-align: center;
-    font-size: 1.2rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
 }
 
 .ajout-ing {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin: 0 auto;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .tab-ing {
-    width: 100%;
-    margin: 4rem auto 0;
-    padding-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  margin: 4rem auto 0;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .titre-tab {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .info-ing {
-    background-color: #f7a23a;
-    border: 3px solid #f85A19;
-    text-align: center;
-    width: 20rem;
-    padding: 1rem;
+  background-color: #f7a23a;
+  border: 3px solid #f85a19;
+  text-align: center;
+  width: 20rem;
+  padding: 1rem;
 }
 
 .info-menu {
-    background-color: #f7a23a;
-    border: 3px solid #f85A19;
-    text-align: center;
-    width: 20%;
-    padding: 1rem;
-    
+  background-color: #f7a23a;
+  border: 3px solid #f85a19;
+  text-align: center;
+  width: 20%;
+  padding: 1rem;
 }
 
 .supp-but {
-    padding: 1rem;
-    background-color: #f85A19;
-    color: #dddddd;
-    border-radius: 1rem;
+  padding: 1rem;
+  background-color: #f85a19;
+  color: #dddddd;
+  border-radius: 1rem;
 }
-

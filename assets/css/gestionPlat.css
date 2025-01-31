@@ -21,8 +21,10 @@
 }
 
 .sub-title {
-  font-size: 2rem;
-  font-weight: 700;
+  color: #050505;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
   padding-left: 3rem;
   margin-bottom: 2rem;
 }
