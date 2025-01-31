@@ -53,7 +53,7 @@ $listPlat = $listPlatStmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($menus as $key => $value):  ?>
 
                 <div class="card-menu">
-                    <h3><?= $key; ?></h3>
+                    <h3 class="card-sub-title"><?= $key; ?></h3>
 
                     <div class="info-menu">
                         <img src="<?= $value['Entrée']['image']; ?>" />

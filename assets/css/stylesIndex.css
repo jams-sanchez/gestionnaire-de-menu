@@ -46,7 +46,9 @@
   align-items: stretch;
   gap: 1rem; /* espace entre img et texte*/
 }
-
+.card-sub-title {
+  text-align: center;
+}
 .card-desc {
   display: flex;
   flex-direction: column;
