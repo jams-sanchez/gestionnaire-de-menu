@@ -23,7 +23,7 @@
                     <li><a href="./ingredients-page.php">Gestion des ingrédients</a></li>
                 <?php endif ?>
                 <form method="post">
-                    <button type="submit" name="deconnexion"><img src="../assets/img/deconnexion-de-lutilisateur.png" alt="déconnexion"></button>
+                    <button class="bouton_deco" type="submit" name="deconnexion"><img src="../assets/img/deconnexion-de-lutilisateur.png" alt="déconnexion"></button>
                 </form>
                 <?php
                 if (isset($_POST['deconnexion'])) {
