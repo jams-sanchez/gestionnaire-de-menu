@@ -189,14 +189,27 @@ if (isset($_POST['supprimer'])) {
                     <tr>
                         <td class="table-info-menu"> <?= $key ?></td>
                         <td class="table-info-menu"> <?= $value['Prix'] . " €"; ?> </td>
+
                         <td class="table-info-menu">
-                            <?= $value['Entrée']['nom'] ?>
+                            <?php if (isset($value['Entrée']['nom'])) : ?>
+                                <?= $value['Entrée']['nom'] ?>
+                            <?php else:
+                                echo "";
+                            endif; ?>
                         </td>
                         <td class="table-info-menu">
-                            <?= $value['Plat']['nom'] ?>
+                            <?php if (isset($value['Plat']['nom'])) : ?>
+                                <?= $value['Plat']['nom'] ?>
+                            <?php else:
+                                echo "";
+                            endif; ?>
                         </td>
                         <td class="table-info-menu">
-                            <?= $value['Dessert']['nom'] ?>
+                            <?php if (isset($value['Dessert']['nom'])) : ?>
+                                <?= $value['Dessert']['nom'] ?>
+                            <?php else:
+                                echo "";
+                            endif; ?>
                         </td>
 
                         <td class="info2-ing">
