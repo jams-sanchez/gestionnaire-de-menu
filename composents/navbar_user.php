@@ -14,8 +14,8 @@
     <header class="header">
         <nav>
             <ul class="barre_de_nav_user">
-                <li><a href=""><img src="../assets/img/accueil.png" alt="acceuil"></a></li>
-                <li><a href=""><img src="../assets/img/administrateur.png" alt="connexion"></a></li>
+                <li><a href="../index.php"><img src="./assets/img/accueil.png" alt="acceuil"></a></li>
+                <li><a href="./pages/connexion.php"><img src="./assets/img/administrateur.png" alt="connexion"></a></li>
             </ul>
         </nav>
     </header>
