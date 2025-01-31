@@ -53,7 +53,7 @@
   padding: 1rem;
 }
 
-.info-menu {
+.table-info-menu {
   background-color: #f7a23a;
   border: 3px solid #f85a19;
   text-align: center;
@@ -66,4 +66,8 @@
   background-color: #f85a19;
   color: #dddddd;
   border-radius: 1rem;
+}
+
+.table-menu {
+  width: 95%;
 }

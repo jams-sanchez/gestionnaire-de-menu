@@ -173,7 +173,7 @@ if (isset($_POST['supprimer'])) {
 
         <h2 class="titre-ing">Liste des menus</h2>
 
-        <table>
+        <table class="table-menu">
             <thead class="titre-tab">
                 <th>Nom</th>
                 <th>Prix</th>
@@ -187,15 +187,15 @@ if (isset($_POST['supprimer'])) {
 
                 foreach ($menus as $key => $value): ?>
                     <tr>
-                        <td class="info-menu"> <?= $key ?></td>
-                        <td class="info-menu"> <?= $value['Prix'] . " €"; ?> </td>
-                        <td class="info-menu">
+                        <td class="table-info-menu"> <?= $key ?></td>
+                        <td class="table-info-menu"> <?= $value['Prix'] . " €"; ?> </td>
+                        <td class="table-info-menu">
                             <?= $value['Entrée']['nom'] ?>
                         </td>
-                        <td class="info-menu">
+                        <td class="table-info-menu">
                             <?= $value['Plat']['nom'] ?>
                         </td>
-                        <td class="info-menu">
+                        <td class="table-info-menu">
                             <?= $value['Dessert']['nom'] ?>
                         </td>
 
