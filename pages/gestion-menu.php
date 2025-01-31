@@ -51,7 +51,8 @@ foreach ($listPlat as $key => $value) {
 
 // ajouter un menu 
 
-$messageSuccesMenu = "";
+$messageSuccesAjout = "";
+$messageErrorAjout = "";
 
 
 if (isset($_POST["ajouter"])) {
@@ -84,7 +85,7 @@ if (isset($_POST["ajouter"])) {
         // si plus d'1 résultat
         if ($menuCheckStmt->fetchColumn() > 0) {
             // affiche message d'erreur
-            echo "Un menu identique existe déjà !";
+            $messageErrorAjout = "Un menu identique existe déjà !";
             header("refresh:1;url=gestion-menu.php");
         } else {
 
@@ -111,7 +112,7 @@ if (isset($_POST["ajouter"])) {
                 'plat_id' => $dessert
             ]);
             // defini un message de succes
-            $messageSuccesMenu = "Le menu a bien été créé ! ";
+            $messageSuccesAjout = "Le menu a bien été créé ! ";
             // actualise apres 1 secondes
             header("refresh:1;url=gestion-menu.php");
         }
@@ -157,6 +158,9 @@ WHERE menu.id = $id");
 
 // recuperation des infos menu modifier
 
+$messageErrorModif = "";
+$messageSuccesModif = "";
+
 if (isset($_POST['validModif'])) {
     $idMenu = $_SESSION['idMenu'];
     $nomUpdate = htmlspecialchars($_POST['nomUpdate']);
@@ -165,33 +169,55 @@ if (isset($_POST['validModif'])) {
     $dessertUpdate = ($_POST['dessertUpdate']);
     $prixUpdate = htmlspecialchars($_POST['prixUpdate']);
 
+    // vérifie si un menu identique existe 
+    $menuCheckStmt = $bdd->prepare("SELECT COUNT(*) FROM menu
+    JOIN plat_menu AS pmEntree ON menu.id = pmEntree.menu_id AND pmEntree.plat_id = :entree
+    JOIN plat_menu AS pmPlat ON menu.id = pmPlat.menu_id AND pmPlat.plat_id = :plat
+    JOIN plat_menu AS pmDessert ON menu.id = pmDessert.menu_id AND pmDessert.plat_id = :dessert
+    ");
 
-    $menuUpdate = $bdd->prepare("UPDATE menu SET nom = :nom, prix = :prix 
-    WHERE id = $idMenu");
-    $menuUpdate->execute([
-        ':nom' => $nomUpdate,
-        ':prix' => $prixUpdate
+    $menuCheckStmt->execute([
+        'entree' => $entreeUpdate,
+        'plat' => $platUpdate,
+        'dessert' => $dessertUpdate
     ]);
-    $menuEntreeUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat
-    WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 1)");
-    $menuEntreeUpdate->execute([
-        ':idPlat' => $entreeUpdate,
-        ':idMenu' => $idMenu
-    ]);
-    $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
-    WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 2)");
-    $menuPlatUpdate->execute([
-        ':idPlat' => $platUpdate,
-        ':idMenu' => $idMenu
-    ]);
-    $menuDessertUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
-    WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 3)");
-    $menuDessertUpdate->execute([
-        ':idPlat' => $dessertUpdate,
-        ':idMenu' => $idMenu
-    ]);
+    // si plus d'1 résultat
+    if ($menuCheckStmt->fetchColumn() > 0) {
+        // affiche message d'erreur
+        $messageErrorModif = "Un menu identique existe déjà !";
+        header("refresh:1;url=gestion-menu.php");
+    } else {
 
-    header("refresh:1;url=gestion-menu.php");
+        $menuUpdate = $bdd->prepare("UPDATE menu SET nom = :nom, prix = :prix 
+        WHERE id = $idMenu");
+        $menuUpdate->execute([
+            ':nom' => $nomUpdate,
+            ':prix' => $prixUpdate
+        ]);
+        $menuEntreeUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat
+        WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 1)");
+        $menuEntreeUpdate->execute([
+            ':idPlat' => $entreeUpdate,
+            ':idMenu' => $idMenu
+        ]);
+        $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
+        WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 2)");
+        $menuPlatUpdate->execute([
+            ':idPlat' => $platUpdate,
+            ':idMenu' => $idMenu
+        ]);
+        $menuDessertUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
+        WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 3)");
+        $menuDessertUpdate->execute([
+            ':idPlat' => $dessertUpdate,
+            ':idMenu' => $idMenu
+        ]);
+
+        // defini un message de succes
+        $messageSuccesModif = "Le menu a bien été modifié ! ";
+        // actualise apres 1 secondes
+        header("refresh:1;url=gestion-menu.php");
+    }
 }
 
 // supprimer un menu
@@ -271,7 +297,18 @@ if (isset($_POST['supprimer'])) {
 
                 <input class="button-james" type="text" name="prixUpdate" value="<?= $menuUpdate[$nomMenuKey]['Prix'] ?> €" required>
 
-                <button class="supp-but" name="validModif">Modifier</button>
+                <button class="ajout-but" name="validModif">Modifier</button>
+
+                <?php if (!empty($messageErrorModif)) : ?>
+                    <div class="error">
+                        <p><?= $messageErrorModif; ?></p>
+                    </div>
+                <?php else : ?>
+                    <div class="error">
+                        <p><?= $messageSuccesModif; ?></p>
+                    </div>
+                <?php endif; ?>
+
 
             </form>
         <?php else : ?>
@@ -304,10 +341,16 @@ if (isset($_POST['supprimer'])) {
 
                 <input class="button-james" type="text" name="prix" placeholder="entrez un prix" required>
 
-                <button class="supp-but" name="ajouter">+ Ajouter</button>
+                <button class="ajout-but" name="ajouter">+ Ajouter</button>
 
-                <?php if (!empty($messageSuccesMenu)) : ?>
-                    <p><?= "<br>" . $messageSuccesMenu; ?></p>
+                <?php if (!empty($messageErrorAjout)) : ?>
+                    <div class="error">
+                        <p><?= $messageErrorAjout; ?></p>
+                    </div>
+                <?php else : ?>
+                    <div class="error">
+                        <p><?= $messageSuccesAjout; ?></p>
+                    </div>
                 <?php endif; ?>
 
             </form>

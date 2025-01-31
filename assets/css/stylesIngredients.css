@@ -18,17 +18,24 @@
 }
 
 .button-james {
+  width: 60%;
+  min-width: 18rem;
+  border-radius: 1rem;
+  border: 2px solid #0f2582;
   padding: 1rem;
   text-align: center;
   font-size: 1.2rem;
 }
 
 .ajout-ing {
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   text-align: center;
+  color: #cecece;
   margin: 0 auto;
+  gap: 0.5rem;
 }
 
 .tab-ing {
@@ -42,7 +49,7 @@
 }
 
 .titre-tab {
-  color: #ffffff;
+  color: #050505;
 }
 
 .info-ing {
@@ -61,14 +68,35 @@
   padding: 1rem;
 }
 
-.supp-but {
+.supp-but,
+.ajout-but {
   padding: 1rem;
   background-color: #f85a19;
-  color: #dddddd;
+  color: #ffffff;
   border-radius: 1rem;
+}
+
+.ajout-but {
+  width: 18rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .table-menu {
   width: 95%;
   margin: 0 auto;
+}
+
+.error {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-radius: 1rem;
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.4rem;
 }

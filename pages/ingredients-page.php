@@ -33,6 +33,7 @@ if (isset($_POST["ajouter"])) {
         ]);
         if ($ingredientCheckStmt->fetchColumn() > 0) {
             $messageError = "L'ingredient existe déjà ! ";
+            header("refresh:1;url=ingredients-page.php");
         } else {
             // ajoute l'ingredient
             $platStmt = $bdd->prepare("INSERT INTO ingredient(nom) VALUES (:nom)");
@@ -72,16 +73,18 @@ if (isset($_POST['supprimer'])) {
                 <h2 class="titre-ing">Ajouter un ingrédient</h2>
             </label>
             <input class="button-james" type="text" name="nom" id="nom" placeholder="entrez un nouvel ingredient" required>
-            <button class="supp-but" name="ajouter">+ Ajouter</button>
+            <button class="ajout-but" name="ajouter">+ Ajouter</button>
 
-            <?php if (!empty($messageSucces)) : ?>
-                <p><?= "<br>" . $messageSucces; ?></p>
-            <?php endif; ?>
             <?php if (!empty($messageError)) : ?>
-                <p><?= "<br>" . $messageError; ?></p>
-            <?php
-                header("refresh:1;url=ingredients-page.php");
-            endif; ?>
+                <div class="error">
+                    <p><?= $messageError; ?></p>
+                </div>
+            <?php else : ?>
+                <div class="error">
+                    <p><?= $messageSucces; ?></p>
+                </div>
+            <?php endif; ?>
+
 
         </form>
 
