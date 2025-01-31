@@ -63,3 +63,25 @@
     height: 10rem;
     object-fit: cover;
 }
+
+
+.info-menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info-menu img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.prix-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap : 0.5rem;
+}

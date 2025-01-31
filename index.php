@@ -9,22 +9,25 @@ try {
 // requete pour afficher la liste des menus
 
 $listMenuStmt = $bdd->prepare("
-SELECT menu.nom AS menu, menu.prix, plat.nom 
+SELECT menu.nom AS menu, menu.prix, plat.nom AS plat, 
+categorie.nom AS categorie, plat.image
 FROM menu 
 JOIN plat_menu ON plat_menu.menu_id = menu.id 
-JOIN plat ON plat_menu.plat_id = plat.id
+JOIN plat ON plat_menu.plat_id = plat.id 
+JOIN categorie ON plat.id_categorie = categorie.id;
 ");
 $listMenuStmt->execute();
 $listMenu = $listMenuStmt->fetchAll(PDO::FETCH_ASSOC);
 
 $menus = [];
-foreach ($listMenu as $value) {
-    $menus_nom = $value['menu'];
-    $menuPrix = $value['prix'];
-    if (!isset($menus[$menus_nom . "\n" . $menuPrix])) {
-        $menus[$menus_nom . "\n" . $menuPrix] = [];
-    }
-    $menus[$menus_nom . "\n" . $menuPrix][] = $value['nom'];
+foreach ($listMenu as $key => $value) {
+    $menusNom = $value['menu'];
+    $menuPrix = $value['prix'] . " €";
+    $menuPlat = $value['plat'];
+    $platImage = $value['image'];
+
+    $menus[$menusNom]['Prix'] = $menuPrix;
+    $menus[$menusNom][$value['categorie']] = ['nom' => $menuPlat, 'image' => $platImage];
 }
 
 // requete pour afficher la liste des plats
@@ -49,11 +52,25 @@ $listPlat = $listPlatStmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($menus as $key => $value):  ?>
 
             <div class="card-menu">
-                <h3><?= $key . "€"; ?></h3>
-                <?php foreach ($value as $plat):  ?>
+                <h3><?= $key; ?></h3>
 
-                    <p><?= $plat ?></p>
-                <?php endforeach; ?>
+                <div class="info-menu">
+                    <img src="<?= $value['Entrée']['image']; ?>" />
+                    <p><?= $value['Entrée']['nom']; ?></p>
+                </div>
+                <div class="info-menu">
+                    <img src="<?= $value['Plat']['image']; ?>" />
+                    <p><?= $value['Plat']['nom']; ?></p>
+                </div>
+                <div class="info-menu">
+                    <img src="<?= $value['Dessert']['image']; ?>" />
+                    <p><?= $value['Dessert']['nom']; ?></p>
+                </div>
+
+                <div class="prix-menu">
+                    <p>Prix : </p>
+                    <p><?= $value['Prix']; ?></p>
+                </div>
 
             </div>
 
