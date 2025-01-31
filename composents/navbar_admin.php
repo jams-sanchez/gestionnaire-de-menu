@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionnaire de Menus</title>
-    <link rel="stylesheet" href="../assets/css/style_composants.css">
+    <link rel="stylesheet" href="./style_composants.css">
     <link rel="stylesheet" href="../assets/css/stylesIngredients.css">
     <link rel="stylesheet" href="../assets/css/connexion.css">
     <link rel="stylesheet" href="../assets/css/gestionPlat.css">
     <link rel="stylesheet" href="../assets/css/stylesIndex.css">
 </head>
-
 <body>
     <header class="header">
-        <nav>
+    <nav>
             <ul class="barre_de_nav">
                 <li><a href="../index.php"><img src="../assets/img/accueil.png" alt="accueil"></a></li>
                 <!-- si pas connecter on ne propose pas les liens vers les pages admin -->
