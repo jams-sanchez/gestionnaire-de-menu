@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<?php include '../composents/navbar_user.php'; ?>
+<?php include '../composents/navbar_admin.php'; ?>
 <!-- si une session est déjà ouverte on ne propose pas de se reconnecter -->
 <?php if (isset($_SESSION['user'])) : ?>
     <?php header("location:gestionPlat.php"); ?>
