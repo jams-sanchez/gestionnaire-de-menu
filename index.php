@@ -56,16 +56,28 @@ $listPlat = $listPlatStmt->fetchAll(PDO::FETCH_ASSOC);
                     <h3 class="card-sub-title"><?= $key; ?></h3>
 
                     <div class="info-menu">
-                        <img src="<?= $value['Entrée']['image']; ?>" />
-                        <p><?= $value['Entrée']['nom']; ?></p>
+                        <?php if (isset($value['Entrée']['nom'])) : ?>
+                            <img src="<?= $value['Entrée']['image']; ?>" />
+                            <p><?= $value['Entrée']['nom']; ?></p>
+                        <?php else:
+                            echo "";
+                        endif; ?>
                     </div>
                     <div class="info-menu">
-                        <img src="<?= $value['Plat']['image']; ?>" />
-                        <p><?= $value['Plat']['nom']; ?></p>
+                        <?php if (isset($value['Plat']['nom'])) : ?>
+                            <img src="<?= $value['Plat']['image']; ?>" />
+                            <p><?= $value['Plat']['nom']; ?></p>
+                        <?php else:
+                            echo "";
+                        endif; ?>
                     </div>
                     <div class="info-menu">
-                        <img src="<?= $value['Dessert']['image']; ?>" />
-                        <p><?= $value['Dessert']['nom']; ?></p>
+                        <?php if (isset($value['Dessert']['nom'])) : ?>
+                            <img src="<?= $value['Dessert']['image']; ?>" />
+                            <p><?= $value['Dessert']['nom']; ?></p>
+                        <?php else:
+                            echo "";
+                        endif; ?>
                     </div>
 
                     <div class="prix-menu">

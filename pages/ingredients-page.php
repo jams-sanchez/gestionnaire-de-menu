@@ -13,6 +13,40 @@ $listStmt = $bdd->prepare("SELECT * FROM ingredient");
 $listStmt->execute();
 $listIngredient = $listStmt->fetchAll(PDO::FETCH_ASSOC);
 
+// ajouter un plat 
+
+$messageSucces = "";
+$messageError = "";
+
+if (isset($_POST["ajouter"])) {
+    //verifie que les champs sont bien rempli
+    if (empty($_POST["nom"])) {
+        echo "Veuillez entrez un ingrédient.";
+    } else {
+        //recup les infos rempli
+        $nom = htmlspecialchars($_POST["nom"]);
+        // verifie que l'ingredient est unique
+        $ingredientCheckStmt = $bdd->prepare('SELECT COUNT(*) FROM ingredient
+        WHERE ingredient.nom = :nom');
+        $ingredientCheckStmt->execute([
+            'nom' => $nom
+        ]);
+        if ($ingredientCheckStmt->fetchColumn() > 0) {
+            $messageError = "L'ingredient existe déjà ! ";
+            header("refresh:1;url=ingredients-page.php");
+        } else {
+            // ajoute l'ingredient
+            $platStmt = $bdd->prepare("INSERT INTO ingredient(nom) VALUES (:nom)");
+            $platStmt->execute([
+                'nom' => $nom,
+            ]);
+            // defini un message de succes
+            $messageSucces = "L'ingrédient a bien été ajouté ! ";
+            // actualise apres 2 secondes
+            header("refresh:1;url=ingredients-page.php");
+        }
+    }
+}
 
 // supprimer un plat
 
@@ -39,28 +73,18 @@ if (isset($_POST['supprimer'])) {
                 <h2 class="titre-ing">Ajouter un ingrédient</h2>
             </label>
             <input class="button-james" type="text" name="nom" id="nom" placeholder="entrez un nouvel ingredient" required>
-            <button class="supp-but" name="ajouter">+ Ajouter</button>
+            <button class="ajout-but" name="ajouter">+ Ajouter</button>
 
-            <?php
+            <?php if (!empty($messageError)) : ?>
+                <div class="error">
+                    <p><?= $messageError; ?></p>
+                </div>
+            <?php else : ?>
+                <div class="error">
+                    <p><?= $messageSucces; ?></p>
+                </div>
+            <?php endif; ?>
 
-            if (isset($_POST["ajouter"])) {
-                //verifie que les champs sont bien rempli
-                if (empty($_POST["nom"])) {
-                    echo "Veuillez entrez un ingrédient.";
-                } else {
-                    //recup les infos rempli
-                    $nom = htmlspecialchars($_POST["nom"]);
-                    $platStmt = $bdd->prepare("INSERT INTO ingredient(nom) VALUES (:nom)");
-                    $platStmt->execute([
-                        'nom' => $nom,
-                    ]);
-                    // defini un message de succes
-                    $messageSucces = "L'ingrédient a bien été ajouté ! ";
-                    echo $messageSucces;
-                    // actualise apres 2 secondes
-                    header("refresh:1;url=ingredients-page.php");
-                }
-            } ?>
 
         </form>
 
