@@ -1,0 +1,102 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.main-james {
+  background-color: #0f2582;
+}
+
+.titre-ing {
+  color: #050505;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 auto 3rem;
+  padding-top: 2rem;
+}
+
+.button-james {
+  width: 60%;
+  min-width: 18rem;
+  border-radius: 1rem;
+  border: 2px solid #0f2582;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.ajout-ing {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #cecece;
+  margin: 0 auto;
+  gap: 0.5rem;
+}
+
+.tab-ing {
+  width: 100%;
+  margin: 4rem auto 0;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.titre-tab {
+  color: #050505;
+}
+
+.info-ing {
+  background-color: #f7a23a;
+  border: 3px solid #f85a19;
+  text-align: center;
+  width: 20rem;
+  padding: 1rem;
+}
+
+.table-info-menu {
+  background-color: #f7a23a;
+  border: 3px solid #f85a19;
+  text-align: center;
+  width: 20%;
+  padding: 1rem;
+}
+
+.supp-but,
+.ajout-but {
+  padding: 1rem;
+  background-color: #f85a19;
+  color: #ffffff;
+  border-radius: 1rem;
+}
+
+.ajout-but {
+  width: 18rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.table-menu {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.error {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-radius: 1rem;
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+}
