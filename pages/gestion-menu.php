@@ -170,54 +170,43 @@ if (isset($_POST['validModif'])) {
     $prixUpdate = htmlspecialchars($_POST['prixUpdate']);
 
     // vérifie si un menu identique existe 
-    $menuCheckStmt = $bdd->prepare("SELECT COUNT(*) FROM menu
+    $menuCheckStmt = $bdd->prepare("SELECT COUNT(*), menu.nom AS nom, menu.prix AS prix FROM menu
     JOIN plat_menu AS pmEntree ON menu.id = pmEntree.menu_id AND pmEntree.plat_id = :entree
     JOIN plat_menu AS pmPlat ON menu.id = pmPlat.menu_id AND pmPlat.plat_id = :plat
     JOIN plat_menu AS pmDessert ON menu.id = pmDessert.menu_id AND pmDessert.plat_id = :dessert
     ");
 
-    $menuCheckStmt->execute([
-        'entree' => $entreeUpdate,
-        'plat' => $platUpdate,
-        'dessert' => $dessertUpdate
-    ]);
-    // si plus d'1 résultat
-    if ($menuCheckStmt->fetchColumn() > 0) {
-        // affiche message d'erreur
-        $messageErrorModif = "Un menu identique existe déjà !";
-        header("refresh:1;url=gestion-menu.php");
-    } else {
 
-        $menuUpdate = $bdd->prepare("UPDATE menu SET nom = :nom, prix = :prix 
+
+    $menuUpdate = $bdd->prepare("UPDATE menu SET nom = :nom, prix = :prix 
         WHERE id = $idMenu");
-        $menuUpdate->execute([
-            ':nom' => $nomUpdate,
-            ':prix' => $prixUpdate
-        ]);
-        $menuEntreeUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat
+    $menuUpdate->execute([
+        ':nom' => $nomUpdate,
+        ':prix' => $prixUpdate
+    ]);
+    $menuEntreeUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat
         WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 1)");
-        $menuEntreeUpdate->execute([
-            ':idPlat' => $entreeUpdate,
-            ':idMenu' => $idMenu
-        ]);
-        $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
+    $menuEntreeUpdate->execute([
+        ':idPlat' => $entreeUpdate,
+        ':idMenu' => $idMenu
+    ]);
+    $menuPlatUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
         WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 2)");
-        $menuPlatUpdate->execute([
-            ':idPlat' => $platUpdate,
-            ':idMenu' => $idMenu
-        ]);
-        $menuDessertUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
+    $menuPlatUpdate->execute([
+        ':idPlat' => $platUpdate,
+        ':idMenu' => $idMenu
+    ]);
+    $menuDessertUpdate = $bdd->prepare("UPDATE plat_menu, plat SET plat_id = :idPlat, menu_id = :idMenu
         WHERE menu_id = :idMenu AND plat_id IN (SELECT id FROM plat WHERE id_categorie = 3)");
-        $menuDessertUpdate->execute([
-            ':idPlat' => $dessertUpdate,
-            ':idMenu' => $idMenu
-        ]);
+    $menuDessertUpdate->execute([
+        ':idPlat' => $dessertUpdate,
+        ':idMenu' => $idMenu
+    ]);
 
-        // defini un message de succes
-        $messageSuccesModif = "Le menu a bien été modifié ! ";
-        // actualise apres 1 secondes
-        header("refresh:1;url=gestion-menu.php");
-    }
+    // defini un message de succes
+    $messageSuccesModif = "Le menu a bien été modifié ! ";
+    // actualise apres 1 secondes
+    header("refresh:1;url=gestion-menu.php");
 }
 
 // supprimer un menu
@@ -228,6 +217,10 @@ if (isset($_POST['supprimer'])) {
 
     $suppStmt = $bdd->prepare('DELETE FROM menu WHERE id = :id');
     $suppStmt->execute([
+        'id' => $valueID,
+    ]);
+    $suppPmStmt = $bdd->prepare('DELETE FROM plat_menu WHERE menu_id = :id');
+    $suppPmStmt->execute([
         'id' => $valueID,
     ]);
 
@@ -295,7 +288,7 @@ if (isset($_POST['supprimer'])) {
                     <?php endforeach; ?>
                 </select>
 
-                <input class="button-james" type="text" name="prixUpdate" value="<?= $menuUpdate[$nomMenuKey]['Prix'] ?> €" required>
+                <input class="button-james" type="text" name="prixUpdate" value="<?= $menuUpdate[$nomMenuKey]['Prix'] ?>" required>
 
                 <button class="ajout-but" name="validModif">Modifier</button>
 
