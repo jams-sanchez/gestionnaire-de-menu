@@ -1,10 +1,16 @@
 <?php
 session_start();
-$bdd = new PDO(
-    'mysql:host=localhost;dbname=gestionnaire_de_menu',
-    'root',
-    ''
-);
+$host = "localhost";
+$username = "root";
+$password = "";
+
+// CONNEXION à la base de donnée
+try {
+    $bdd  = new PDO("mysql:host=$host;dbname=gestionnaire_de_menu;charset=utf8", $username, $password);
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
 
 if (isset($_POST['submit'])) {
     if (!empty($_POST['email']) && !empty($_POST['password'])) {
