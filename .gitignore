@@ -1,0 +1,5 @@
+# ignore le .env
+.env
+
+# ignore le dossier vendor
+/vendor/

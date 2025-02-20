@@ -1,8 +1,9 @@
 <?php
+require '../config.php';
 session_start();
-$host = "localhost";
-$username = "root";
-$password = "";
+$host = $_ENV['BDD_URL'];
+$username = $_ENV['BDD_USERNAME'];
+$password = $_ENV['BDD_PASSWORD'];
 
 // CONNEXION à la base de donnée
 try {

@@ -1,11 +1,11 @@
 <?php
-$host = "localhost";
-$username = "root";
-$password = "";
-
+require './config.php';
+$host = $_ENV['BDD_URL'];
+$username = $_ENV['BDD_USERNAME'];
+$password = $_ENV['BDD_PASSWORD'];
 // CONNEXION à la base de donnée
 try {
-    $bdd  = new PDO("mysql:host=$host;dbname=gestionnaire_de_menu;charset=utf8", $username, $password);
+    $bdd  = new PDO("mysql:host=$host;dbname=yannick-bossola_gestionnaire_de_menu;charset=utf8", $username, $password);
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
