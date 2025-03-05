@@ -1,4 +1,4 @@
-## 🍴 Gestionnaire de menu
+## 🍴 Gestionnaire de menus
 
 Un site qui permet à un restaurateur de créer, personnaliser et partager le menu de son restaurant.
 
